@@ -4,7 +4,16 @@
     margin: 4rem auto;
     font-size: 1.5rem;
 }
-
+.feedcontainer{
+    display: flex;
+    gap: 50px;
+}
+/* .sidebar {
+    width: 25%;
+    height: 100vh; 
+    position: sticky;
+    top: 0;
+} */
 .alluser{
     width: 80%;
     margin: 2rem auto;

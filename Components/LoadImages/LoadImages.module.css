@@ -1,36 +1,18 @@
 .imageGallery {
     width: 100%;
-    padding: 20px;
+    padding: 50px;
     text-align: center;
-    background: #f9f9f9;
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .galleryTitle {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .imageGrid {
-    /* display: grid; */
-    width: auto;
-    height: auto;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 10px;
-  }
-  .PostStyle{
-    height: 70px;
-    width: 70px;
-  }
-  
-  .noImages {
-    font-size: 18px;
-    color: #777;
-    margin-top: 20px;
-  }
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px; 
+    justify-content: center;
+}
 
-  
+@media (max-width: 768px) {
+    .imageGallery {
+        grid-template-columns: repeat(1, 1fr); 
+    }
+}

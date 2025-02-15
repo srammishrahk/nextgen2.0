@@ -48,32 +48,29 @@ const UploadImage = () => {
               style={{ display: "none" }}
               onChange={handleFileInputChange}
             />
-            <button  onClick={() => fileInput.current.click()}>
-              <span className={Style.UploadImage_btn}> 
-              <Image src={images.create} alt="send" width={20} height={20} />
+            <button onClick={() => fileInput.current.click()}>
+              <Image src={images.create} alt="send" width={30} height={30} />
               Select Image
-              </span>
             </button>
             {selectedFile && <p>Selected file: {selectedFile.name}</p>}
           </div>
 
-          <div className={Style.UploadImage_box_left_discription}>
-            <input
-              type="text"
-              placeholder="Enter Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+					<div className={Style.UploadImage_box_left_discription}>
+						<input
+							type="text"
+							placeholder="Enter Description"
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+						/>
+					</div>
 
           <div className={Style.UploadImage_box_right}>
             <button onClick={submitImage}>Submit</button>
           </div>
         </div>
       </div>
-    <div Style={Style.UploadImage_ImgStyle}>
 
-    {imgHash && (
+      {imgHash && (
         <div>
           <h3>Uploaded Image:</h3>
           <img
@@ -83,8 +80,6 @@ const UploadImage = () => {
           />
         </div>
       )}
-    </div>
-      
     </div>
   );
 };
