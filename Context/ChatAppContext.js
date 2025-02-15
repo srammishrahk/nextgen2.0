@@ -50,7 +50,6 @@ export const ChatAppProvider = ({ children }) => {
     }
   };
 
-
   //READ MESSAGE
   const readMessage = async (friendAddress) => {
     try {
@@ -63,22 +62,33 @@ export const ChatAppProvider = ({ children }) => {
   };
 
   //CREATE ACCOUNT
-  const createAccount = async ({ name }) => {
-    console.log(name, account);
+  // Create Account
+  const createAccount = async ({ name, profileHash, preferences }) => {
     try {
-      // if (!name || !account)
-      //   return setError("Name And Account Address, cannot be empty");
+      console.log(
+        "name:",
+        name,
+        "profileHash:",
+        profileHash,
+        "preferences:",
+        preferences
+      );
 
-      const contract = await connectingWithContract();
-      console.log(contract);
-      const getCreatedUser = await contract.createAccount(name);
+      const contract = await connectingWithContract(); // ✅ Ensure contract is defined
 
       setLoading(true);
-      await getCreatedUser.wait();
+      const transaction = await contract.createAccount(
+        name,
+        profileHash,
+        preferences
+      ); // ✅ Corrected
+      await transaction.wait(); // ✅ Corrected
+
       setLoading(false);
       window.location.reload();
     } catch (error) {
-      setError("Error while creating your account Pleas reload browser");
+      console.error("Error creating account:", error); // ✅ Log the error properly
+      setError(error.message);
     }
   };
 
@@ -125,11 +135,10 @@ export const ChatAppProvider = ({ children }) => {
 
   //SEND MESSAGE TO YOUR FRIEND
   const uploadImage = async ({ imgHash, description }) => {
-    console.log(String(imgHash),String(description));
+    console.log(String(imgHash), String(description));
     try {
-
       const contract = await connectingWithContract();
-      const addImage = await contract.uploadImage(imgHash,description);
+      const addImage = await contract.uploadImage(imgHash, description);
       setLoading(true);
       await addImage.wait();
       setLoading(false);
@@ -137,7 +146,6 @@ export const ChatAppProvider = ({ children }) => {
       const imgCount = await contract.imageCount();
       window.location.reload();
       return imgCount;
-
     } catch (error) {
       setError("Please reload and try again");
     }
@@ -147,7 +155,7 @@ export const ChatAppProvider = ({ children }) => {
     try {
       const contract = await connectingWithContract();
       const imgCount = await contract.imageCount();
-      const imgs = []
+      const imgs = [];
       // console.log(imgCount.toNumber());
       for (var i = 1; i <= imgCount; i++) {
         const image = await contract.images(i);
@@ -158,13 +166,12 @@ export const ChatAppProvider = ({ children }) => {
       setImages(imgs);
       // console.log(IMAGES);
       return imgs;
-      
     } catch (error) {
       setError("hjknkmm");
     }
   };
 
-  const tipImageOwner = async ({id}) => {
+  const tipImageOwner = async ({ id }) => {
     console.log(id);
     try {
       const contract = await connectingWithContract();
@@ -173,7 +180,6 @@ export const ChatAppProvider = ({ children }) => {
       // await imgTip.wait();
       // setLoading(false);
       window.location.reload();
-      
     } catch (error) {
       setError("Tipping is not available right now! Try again");
     }
@@ -185,7 +191,6 @@ export const ChatAppProvider = ({ children }) => {
     return userName;
   };
 
-  
   useEffect(() => {
     fetchData();
     loadImage();
@@ -215,7 +220,7 @@ export const ChatAppProvider = ({ children }) => {
         loadImage,
         IMAGES,
         tipImageOwner,
-        getUserName
+        getUserName,
       }}
     >
       {children}

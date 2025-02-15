@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const ChatApp = await hre.ethers.getContractFactory("ChatApp");
+  const ChatApp = await hre.ethers.getContractFactory("BlogApp");
   const chatApp = await ChatApp.deploy();
 
   await chatApp.deployed();
