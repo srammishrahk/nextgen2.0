@@ -1,0 +1,167 @@
+.UploadImage{
+    width: 80%;
+    margin: 1rem auto;
+}
+
+.UploadImage_box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.UploadImage_box_left{
+    display: flex;
+    gap: 1rem;
+}
+
+.UploadImage_box_left_select_btn{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.UploadImage_box_left_select_btn button{
+    outline: none;
+    border: none;
+    color: #F18303;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+    border-radius: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.UploadImage_box_left_discription{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-inline: 1rem;
+    background-color: rgba(0,0,0,0.25);
+    color: #f18303;
+}
+
+.UploadImage_box_left_discription input{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding: 1rem;
+    color: #f18303;
+    width:35rem;
+}
+
+.UploadImage_box_right{
+    display: flex;
+    gap: 1rem;
+}
+
+.UploadImage_box_right button{
+    background-color: rgba(0,0,0,0.25);
+    outline: none;
+    border: none;
+    padding: 1rem 2rem;
+    color: #f18303;
+    border-radius: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+   
+}
+.UploadImage_box_right button:hover{
+  background-color: rgba(130, 105, 105, 0.25);
+}
+
+
+.social-feed {
+  width: 40%;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  background-color: #fafafa;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 100px;
+}
+
+.post .user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.post .user-info .profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.post .user-info .name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.post .post-image {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.post .likes {
+  display: flex;
+  align-items: center;
+}
+
+.post .likes .like-count {
+  font-size: 14px;
+  color: #888888;
+  margin: 0;
+}
+
+.Friend{
+  width: 40%;
+  margin: 5rem auto;
+}
+
+.Friend_box{
+  display: grid;
+  gap: 2rem;
+}
+
+.Friend_box_left{
+  background-color: rgba(0,0,0,0.25);
+  padding: 1rem;
+  border-radius: .5rem;
+}
+
+
+@media only screen and (max-width: 35em) {
+    .UploadImage{
+        width: 90%;
+    }
+    .UploadImage_box{
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .UploadImage_box_left_discription input{
+        width: 100%
+    };
+
+    .UploadImage_box_right button{
+        font-size: .5rem;
+    }
+}
