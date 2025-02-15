@@ -6,6 +6,7 @@ import Model from "./Model/Model";
 import UserCard from "./UserCard/UserCard";
 import Friend from "./Friend/Friend";
 import UploadImage from "./UploadImage/UploadImage";
+import LoadImages from "./LoadImages/LoadImages";
 
 
-export { NavBar, Filter, Error, Loader, Model, UserCard, Friend, UploadImage, };
+export { NavBar, Filter, Error, Loader, Model, UserCard, Friend, UploadImage, LoadImages };

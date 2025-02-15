@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 //INTRNAL IMPORT
-import { UploadImage, loadImages } from "../Components/index";
+import { UploadImage, LoadImages } from "../Components/index";
 
 const feed = () => {
   return (
     <div>
       <UploadImage/>
-      <loadImages/>
+      <LoadImages/>
     </div>
   );
 };

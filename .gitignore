@@ -1,32 +1,75 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
+# Dependencies
+/node_modules/
 /.pnp
 .pnp.js
+.pnpm-store/
+yarn.lock
+package-lock.json
 
-# testing
+# Blockchain Development
+/artifacts/
+/cache/
+/coverage/
+/typechain-types/
+/deployments/
+.openzeppelin/
+*.secret
+*.key
+
+# Testing
 /coverage
 
-# next.js
+# Next.js
 /.next/
 /out/
+.next-env.js
 
-# production
+# Production
 /build
+/dist
 
-# misc
-.DS_Store
-*.pem
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.project
 
-# debug
+# Editor & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
+gas-reporter.txt
 
-# local env files
-.env*.local
+# Local development
+*.local
+*.bak
+*.tmp
 
-# vercel
+# System Files
+.DS_Store
+Thumbs.db
+
+# Certificates
+*.pem
+*.crt
+*.key
+
+# Vercel
 .vercel
+
+# Hardhat/Truffle specific
+.hardhat_cache/
+.hardhat_contracts.json
+.truffle-suite/
