@@ -21,6 +21,9 @@ const Model = ({
   const [name, setName] = useState("");
   const [userAddress, setUserAddress] = useState(address);
 
+  const preferences = ['Technology'];
+  const hashkey = 'bafkreibnknbuedwqzt7fwranquqcy4i53mhcm7lyemxc6g74fuhbf2jzje'
+
   const { loading } = useContext(ChatAppContext);
   return (
     <div className={Style.Model}>
@@ -62,7 +65,9 @@ const Model = ({
               </div>
 
               <div className={Style.Model_box_right_name_btn}>
-                <button onClick={() => functionName({ name, userAddress })}>
+                <button onClick={() => {console.log('hashkey',hashkey); 
+                  functionName({ name, profileHash: hashkey, preferences })
+                  }}>
                   {""}
                   <Image src={images.send} alt="send" width={30} height={30} />
                   {""}

@@ -1,0 +1,34 @@
+/* BlogEditAdd.module.css */
+.BlogEditAdd {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .BlogEditAdd h2 {
+    margin-bottom: 20px;
+  }
+  
+  .BlogEditAdd input,
+  .BlogEditAdd textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .BlogEditAdd button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .BlogEditAdd button:hover {
+    background-color: #0056b3;
+  }

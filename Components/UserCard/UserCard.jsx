@@ -18,7 +18,7 @@ const UserCard = ({ el, i, addFriends }) => {
 
         <div className={Style.UserCard_box_info}>
           <h3>{el.name}</h3>
-          <p>{el.accountAddress.slice(0, 25)}..</p>
+          {/* <p>{el.accountAddress.slice(0, 25)}..</p> */}
           <button
             onClick={() =>
               addFriends({ name: el.name, userAddress: el.accountAddress })

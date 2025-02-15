@@ -7,6 +7,7 @@ import UserCard from "./UserCard/UserCard";
 import Friend from "./Friend/Friend";
 import UploadImage from "./UploadImage/UploadImage";
 import LoadImages from "./LoadImages/LoadImages";
+import BlogEditAdd from "./BlogEditAdd/BlogEditAdd";
 
 
-export { NavBar, Filter, Error, Loader, Model, UserCard, Friend, UploadImage, LoadImages };
+export { NavBar, Filter, Error, Loader, Model, UserCard, Friend, UploadImage, LoadImages , BlogEditAdd};

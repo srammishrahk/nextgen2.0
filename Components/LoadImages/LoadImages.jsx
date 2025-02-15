@@ -15,6 +15,7 @@ const LoadImages = () => {
           IMAGES.map((img, key) => (
             <Post
               key={key}
+              Style={Style.PostStyle}
               name={img.author}
               img={`https://gateway.pinata.cloud/ipfs/${img.hash}`} 
               caption={img.description}

@@ -23,10 +23,7 @@ const NavBar = () => {
       link: "/",
     },
     
-    {
-      menu: "SETTING",
-      link: "/",
-    },
+  
   ];
 
   //USESTATE
