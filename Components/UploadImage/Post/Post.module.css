@@ -28,12 +28,14 @@
     align-items: center;
     gap: 2rem;
     line-height: 1;
-    background-color: rgba(0, 0, 0, 0.411);
+    /* background-color: rgba(0, 0, 0, 0.411); */
+    background-color:white ;
     border-radius: 1rem;
     margin-top: 1rem;
 }
 .Chat_box_left p{
     /* background-color: #f182035b; */
+    background-color: white;
     padding: 1rem;
     border-top-right-radius: .5rem;
     border-top-left-radius: .5rem;

@@ -9,8 +9,10 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
     font-family: 'Roboto', sans-serif;
-    background-color: #292F3F;
-    color: #FFFFFF;
+    /* background-color: #292F3F; */
+    
+  background: linear-gradient(to right, #d5eced, #c1caf8); 
+    /* color: #FFFFFF; */
 }
 
 ::-webkit-scrollbar{
@@ -26,12 +28,4 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-   
-  }
-}
+
