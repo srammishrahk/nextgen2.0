@@ -18,15 +18,27 @@ contract BlogApp {
         BlogCategory[] preferences;
     }
 
-    struct friend {
-        address payable pubkey;
-        string name;
+    // Blog Structure
+    struct Blog {
+        uint id;
+        string contentHash;
+        string blogCoverHash;
+        uint tipAmount;
+        BlogCategory category;
+        address payable author;
+        uint createdAt;
+        address[] selectedUsers;
+        uint approveVotes;
+        uint rejectVotes;
+        bool isBlocked;
+        bool isApproved;
     }
 
-    struct message {
+    // Comment Structure
+    struct Comment {
         address payable sender;
         uint256 timestamp;
-        string msg;
+        string text;
     }
 
     struct AllUserStruct {
@@ -37,35 +49,32 @@ contract BlogApp {
 
     AllUserStruct[] public getAllUsers;
 
-    uint public imageCount = 0;
+    uint public blogCount = 0;
+    mapping(uint => Blog) public blogs;
     mapping(address => User) public userList;
-    mapping(uint => Image) public images;
+    mapping(uint => Comment[]) public blogComments;
+    mapping(uint => mapping(address => bool)) public hasVoted;
 
-    struct Image {
-        uint id;
-        string hash;
-        string description;
-        uint tipAmount;
-        address payable author;
-    }
-
-    event ImageCreated(
+    // Events
+    event BlogCreated(
         uint id,
-        string hash,
-        string description,
+        string contentHash,
+        string blogCoverHash,
+        string title,
+        BlogCategory category,
+        address payable author
+    );
+
+    event BlogTipped(
+        uint id,
+        string title,
         uint tipAmount,
         address payable author
     );
 
-    event ImageTipped(
-        uint id,
-        string hash,
-        string description,
-        uint tipAmount,
-        address payable author
-    );
+    event CommentAdded(uint blogId, address sender, string comment);
 
-    mapping(bytes32 => message[]) allMessages;
+    event BlogVoted(uint blogId, address voter, bool approved);
 
     //CHECK USER EXIST
     function checkUserExists(
@@ -98,83 +107,167 @@ contract BlogApp {
     }
 
 
-    //get chat code
-    function _getChatCode(
-        address payable pubkey1,
-        address payable pubkey2
-    ) internal pure returns (bytes32) {
-        if (pubkey1 < pubkey2) {
-            return keccak256(abi.encodePacked(pubkey1, pubkey2));
-        } else return keccak256(abi.encodePacked(pubkey2, pubkey1));
-    }
-
-    //READ MESSAGE
-    function readMessage(
-        address friend_key
-    ) external view returns (message[] memory) {
-        bytes32 chatCode = _getChatCode(
-            payable(msg.sender),
-            payable(friend_key)
-        );
-        return allMessages[chatCode];
-    }
-
-    function getAllAppUser() public view returns (AllUserStruct[] memory) {
-        return getAllUsers;
-    }
-
-    //Create images
-    function uploadImage(
-        string memory _imgHash,
-        string memory _description
+    function createBlog(
+        string memory contentHash,
+        string memory blogCoverHash,
+        string memory title,
+        BlogCategory category
     ) public {
-        //Make sure image hash exists
-        require(bytes(_imgHash).length > 0);
-        //Make sure image description exists
-        require(bytes(_description).length > 0);
-        //Make sure uploader address exists
-        require(msg.sender != address(0x0));
-        //Increment image id
-        imageCount++;
-        //Add image to contract
-        images[imageCount] = Image(
-            imageCount,
-            _imgHash,
-            _description,
+        require(bytes(contentHash).length > 0, "Content required");
+        require(bytes(title).length > 0, "Title required");
+
+        blogCount++;
+        address[] memory selectedUsers = getRandomUsers(15);
+        blogs[blogCount] = Blog(
+            blogCount,
+            contentHash,
+            blogCoverHash,
             0,
-            payable(msg.sender)
+            category,
+            payable(msg.sender),
+            block.timestamp,
+            selectedUsers,
+            0,
+            0,
+            false,
+            false
         );
-        //Tigger an event
-        emit ImageCreated(
-            imageCount,
-            _imgHash,
-            _description,
-            0,
+
+        emit BlogCreated(
+            blogCount,
+            contentHash,
+            blogCoverHash,
+            title,
+            category,
             payable(msg.sender)
         );
     }
 
-    //Tip images
-    function tipImageOwner(uint _id) public payable {
-        // Make sure the id is valid
-        require(_id > 0 && _id <= imageCount);
-        // Fetch the image
-        Image memory _image = images[_id];
-        // Fetch the author
-        address payable _author = _image.author;
-        // Pay the author by sending them Ether
-        _author.transfer(5 ether);
-        // Increment the tip amount
-        _image.tipAmount = _image.tipAmount + 5 ether;
-        // Update the image
-        images[_id] = _image;
-        // Trigger an event
-        emit ImageTipped(
-            _id,
-            _image.hash,
-            _image.description,
-            _image.tipAmount,
-            _author
+    function getRandomUsers(
+        uint count
+    ) internal view returns (address[] memory) {
+        uint totalUsers = getAllUsers.length;
+        count = count > totalUsers ? totalUsers : count;
+        address[] memory selected = new address[](count);
+
+        uint256 seed = uint256(
+            keccak256(abi.encodePacked(block.difficulty, block.timestamp))
         );
+
+        for (uint i = 0; i < count; i++) {
+            uint index = (seed + i) % totalUsers;
+            selected[i] = getAllUsers[index].accountAddress;
+        }
+        return selected;
+    }
+
+    function getUserBlogs(
+        address user
+    ) public view returns (Blog[] memory, Comment[][] memory) {
+        uint count = 0;
+        for (uint i = 1; i <= blogCount; i++) {
+            if (
+                blogs[i].author == user ||
+                isUserSelectedForBlog(i, user) ||
+                userHasPreference(blogs[i].category, user)
+            ) {
+                count++;
+            }
+        }
+
+        Blog[] memory userBlogs = new Blog[](count);
+        Comment[][] memory userBlogComments = new Comment[][](count);
+
+        uint index = 0;
+        for (uint i = 1; i <= blogCount; i++) {
+            if (
+                blogs[i].author == user ||
+                isUserSelectedForBlog(i, user) ||
+                userHasPreference(blogs[i].category, user)
+            ) {
+                userBlogs[index] = blogs[i];
+                userBlogComments[index] = blogComments[i]; // Get all comments for the blog
+                index++;
+            }
+        }
+
+        return (userBlogs, userBlogComments);
+    }
+
+    function isUserSelectedForBlog(
+        uint blogId,
+        address user
+    ) internal view returns (bool) {
+        for (uint i = 0; i < blogs[blogId].selectedUsers.length; i++) {
+            if (blogs[blogId].selectedUsers[i] == user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function userHasPreference(
+        BlogCategory category,
+        address user
+    ) internal view returns (bool) {
+        for (uint i = 0; i < userList[user].preferences.length; i++) {
+            if (userList[user].preferences[i] == category) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function voteOnBlog(uint blogId, bool approve) public {
+        require(blogId > 0 && blogId <= blogCount, "Invalid blog");
+        require(!hasVoted[blogId][msg.sender], "Already voted");
+        require(
+            block.timestamp <= blogs[blogId].createdAt + 1 days,
+            "Voting period over"
+        );
+
+        Blog storage blog = blogs[blogId];
+        require(!blog.isApproved && !blog.isBlocked, "Already resolved");
+        require(
+            isUserSelectedForBlog(blogId, msg.sender),
+            "Not eligible to vote"
+        );
+
+        hasVoted[blogId][msg.sender] = true;
+        if (approve) {
+            blog.approveVotes++;
+        } else {
+            blog.rejectVotes++;
+        }
+
+        if (blog.rejectVotes > blog.selectedUsers.length / 2) {
+            blog.isBlocked = true;
+            blog.author.transfer(blog.tipAmount);
+        }
+
+        if (blog.approveVotes > blog.selectedUsers.length / 2) {
+            blog.isApproved = true;
+        }
+
+        emit BlogVoted(blogId, msg.sender, approve);
+    }
+
+    function tipBlogAuthor(uint blogId) public payable {
+        require(blogId > 0 && blogId <= blogCount, "Invalid blog");
+        Blog storage blog = blogs[blogId];
+        blog.author.transfer(msg.value);
+        blog.tipAmount += msg.value;
+        emit BlogTipped(blogId, "", blog.tipAmount, blog.author);
+    }
+
+    function addComment(uint blogId, string memory commentText) public {
+        blogComments[blogId].push(
+            Comment(payable(msg.sender), block.timestamp, commentText)
+        );
+        emit CommentAdded(blogId, msg.sender, commentText);
+    }
+
+    function getComments(uint blogId) public view returns (Comment[] memory) {
+        return blogComments[blogId];
     }
 }
