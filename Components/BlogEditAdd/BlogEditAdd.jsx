@@ -68,6 +68,7 @@ const BlogEditAdd = ({ blog }) => {
 		() => ({
 			readonly: false,
 			placeholder: "Start typing...",
+			height: 600
 		}),
 		[]
 	);

@@ -41,9 +41,18 @@
 
 import React, { useState } from "react";
 import Style from "./Sidebar.module.css";
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
 	const [activeItems, setActiveItems] = useState([]);
+
+	const router = useRouter();
+
+	const handleClick = () => {
+		router.push({
+			pathname: "blog"
+		});
+	};
 
 	const menuItems = [
 		"Technology",
@@ -63,7 +72,7 @@ const Sidebar = () => {
 	return (
 		<div className={Style.sidecontainer}>
 			<div>
-				<button className={Style.addBlogBtn}>Add Blog</button>
+				<button onClick={handleClick} className={Style.addBlogBtn}>Add Blog</button>
 			</div>
 			<div className={Style.menu}>
 				<div className={Style.menuList}>

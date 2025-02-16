@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 
 //INTERNAL IMPORT
-// import { ChatAppContext } from "../Context/ChatAppContext";
-import { Filter, Friend } from "../Components/index";
+import {Sidebar, LoadImages } from "../Components/index";
+import Style from "../styles/feed.module.css"
 
 const ChatApp = () => {
   // const {} = useContext(ChatAppContext);
   return (
-    <div>
-      <Filter />
-      <Friend />
+    <div className={Style.feedcontainer}>
+      {/* <UploadImage/> */}
+      <LoadImages />
+      <Sidebar/>
     </div>
   );
 };

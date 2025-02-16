@@ -27,14 +27,13 @@ export const ChatAppProvider = ({ children }) => {
     try {
       const contract = await connectingWithContract();
       const connectAccount = await connectWallet();
+
+      console.log("connected account", connectAccount);
       setAccount(connectAccount);
 
       const userData = await contract.userList(connectAccount);
       setUserName(userData.name);
       setProfileImage(userData.profileImageHashcode);
-
-      const userList = await contract.getAllUsers();
-      setUserLists(userList);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +43,7 @@ export const ChatAppProvider = ({ children }) => {
   const createAccount = async ({ name, profileHash, preferences }) => {
     try {
       const contract = await connectingWithContract();
-      const createUser = await contract.createAccount(name, profileHash, preferences);
+      const createUser = await contract.createAccount(name, profileHash, ["1"]);
 
       setLoading(true);
       await createUser.wait();
@@ -52,14 +51,25 @@ export const ChatAppProvider = ({ children }) => {
       window.location.reload();
     } catch (error) {
       setError("Error while creating your account, please try again.");
+      console.error(error);
     }
   };
 
   // Create Blog Post
-  const createBlog = async ({ contentHash, blogCoverHash, title, category }) => {
+  const createBlog = async ({
+    contentHash,
+    blogCoverHash,
+    title,
+    category,
+  }) => {
     try {
       const contract = await connectingWithContract();
-      const addBlog = await contract.createBlog(contentHash, blogCoverHash, title, category);
+      const addBlog = await contract.createBlog(
+        contentHash,
+        blogCoverHash,
+        title,
+        category
+      );
 
       setLoading(true);
       await addBlog.wait();
@@ -73,11 +83,30 @@ export const ChatAppProvider = ({ children }) => {
   // Load Blogs
   const loadBlogs = async () => {
     try {
+      if (!account || !ethers.utils.isAddress(account)) {
+        // setError("Invalid wallet address. Please reconnect your wallet.");
+        console.error("Error: Invalid or empty account:", account);
+
+        const contract = await connectingWithContract();
+        const connectAccount = await connectWallet();
+
+        console.log("connected account", connectAccount);
+        setAccount(connectAccount);
+
+        if (!account || !ethers.utils.isAddress(account)) {
+          console.error("Error: Invalid or empty account:", account);
+          setError("Error: Invalid or empty account");
+          return;
+        }
+      }
+
       const contract = await connectingWithContract();
+      console.log("Fetching blogs for account:", account); // Debugging
       const userBlogs = await contract.getUserBlogs(account);
       setBlogs(userBlogs);
     } catch (error) {
       setError("Error while fetching blogs, please reload.");
+      console.error("Error while fetching blogs:", error);
     }
   };
 
@@ -99,7 +128,9 @@ export const ChatAppProvider = ({ children }) => {
   const tipBlogAuthor = async ({ blogId }) => {
     try {
       const contract = await connectingWithContract();
-      const tip = await contract.tipBlogAuthor(blogId, { value: ethers.utils.parseEther("0.01") });
+      const tip = await contract.tipBlogAuthor(blogId, {
+        value: ethers.utils.parseEther("0.01"),
+      });
       setLoading(true);
       await tip.wait();
       setLoading(false);
@@ -114,7 +145,7 @@ export const ChatAppProvider = ({ children }) => {
     try {
       const contract = await connectingWithContract();
       const comment = await contract.addComment(blogId, commentText);
-      
+
       setLoading(true);
       await comment.wait();
       setLoading(false);
@@ -126,8 +157,13 @@ export const ChatAppProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData();
-    loadBlogs();
   }, []);
+
+  useEffect(() => {
+    if (account) {
+      loadBlogs();
+    }
+  }, [account]);
 
   return (
     <ChatAppContext.Provider
