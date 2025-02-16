@@ -29,27 +29,18 @@ const LoadImages = () => {
 	];
 
   return (
-    <div className={Style.imageGallery}>
-      <h2 className={Style.galleryTitle}>Uploaded Images</h2>
-      
-      <div className={Style.imageGrid}>
-        {IMAGES && IMAGES.length > 0 ? (
-          IMAGES.map((img, key) => (
-            <Post
-              key={key}
-              name={img.author}
-              img={`https://gateway.pinata.cloud/ipfs/${img.hash}`} 
-              caption={img.description}
-              tip={img.tipAmount}  
-              id={img.id}
-            />
-          ))
-        ) : (
-          <p className={Style.noImages}>No images uploaded yet.</p>
-        )}
-      </div>
-    </div>
-  );
+		<div className={Style.imageGallery}>
+			{IMAGES.map((img) => (
+				<ImageCard
+					key={img.id}
+					userImage={img.userImage}
+					name={img.author}
+					coverImage={img.coverImage}
+					description={img.description}
+				/>
+			))}
+		</div>
+	);
 };
 
 export default LoadImages;

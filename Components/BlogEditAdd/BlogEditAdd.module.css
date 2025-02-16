@@ -1,34 +1,104 @@
-/* BlogEditAdd.module.css */
+
 .BlogEditAdd {
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .BlogEditAdd h2 {
-    margin-bottom: 20px;
-  }
-  
-  .BlogEditAdd input,
-  .BlogEditAdd textarea {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .BlogEditAdd button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .BlogEditAdd button:hover {
-    background-color: #0056b3;
-  }
+  padding: 20px;
+  width: 80%;
+  margin: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  background: #f9f9f9;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.BlogEditAdd h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.jodit {
+  width: 100%;
+  margin-bottom: 20px;
+  min-height: 400px ;
+}
+
+/* .jodit-container {
+  min-height: 400px !important;
+}
+
+.jodit-workplace {
+  min-height: 400px !important;
+}
+
+.jodit-wysiwyg {
+  min-height: 400px !important;
+} */
+
+.BlogEditAdd input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.selectedFile {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Button Styling */
+.actionButton,
+.uploadButton,
+.submitButton {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  padding: 12px 15px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+/* Show Content Button */
+.actionButton {
+  background-color: #f39c12;
+  color: white;
+}
+
+.actionButton:hover {
+  background-color: #e67e22;
+}
+
+/* Select Image Button */
+.uploadButton {
+  background-color: #3498db;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.uploadButton:hover {
+  background-color: #2980b9;
+}
+
+.submitButton {
+  background-color: #2ecc71;
+  color: white;
+}
+.btns{
+  display: flex;
+  justify-content: space-between;
+}
+.submitButton:hover {
+  background-color: #27ae60;
+}
+

@@ -1,7 +1,7 @@
 // App.js or BlogPage.js
 import React, { useState } from "react";
 import {BlogEditAdd} from "../Components/index"; // Adjust the path as necessary
-
+import Style from "../styles/blog.module.css";
 const blogpage = () => {
   const [currentBlog, setCurrentBlog] = useState(""); // For editing an existing blog
 
@@ -14,8 +14,9 @@ const blogpage = () => {
   };
 
   return (
-    <div>
+    <div className={Style.blogmain}>
       <h1>Blog Management</h1>
+      <h2>Add Blog</h2>
       <BlogEditAdd blog={currentBlog || exampleBlog} />
       {/* You can set currentBlog to null to create a new blog */}
     </div>
